@@ -442,7 +442,7 @@ class GPTAPI(BaseAPIModel):
                     **gen_params
                 }
             }
-        elif model_type.lower().startswith('deepseek-chat'):
+        elif model_type.lower().startswith('deepseek'):
             if 'top_k' in gen_params:
                 warnings.warn(
                     '`top_k` parameter is deprecated in deepseek-chat.',
