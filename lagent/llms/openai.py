@@ -326,6 +326,8 @@ class GPTAPI(BaseAPIModel):
 
             response = dict()
             try:
+                print('url--->',self.url)
+                print('req data--->',data)
                 raw_response = requests.post(
                     self.url,
                     headers=header,
