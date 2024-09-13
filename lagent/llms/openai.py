@@ -92,9 +92,9 @@ class GPTAPI(BaseAPIModel):
         self.json_mode = json_mode
 
     def chat(
-        self,
-        inputs: Union[List[dict], List[List[dict]]],
-        **gen_params,
+            self,
+            inputs: Union[List[dict], List[List[dict]]],
+            **gen_params,
     ) -> Union[str, List[str]]:
         """Generate responses given the contexts.
 
@@ -122,9 +122,9 @@ class GPTAPI(BaseAPIModel):
         return ret[0] if isinstance(inputs[0], dict) else ret
 
     def stream_chat(
-        self,
-        inputs: List[dict],
-        **gen_params,
+            self,
+            inputs: List[dict],
+            **gen_params,
     ) -> str:
         """Generate responses given the contexts.
 
@@ -440,6 +440,22 @@ class GPTAPI(BaseAPIModel):
                     **gen_params
                 }
             }
+        elif model_type.lower().startswith('deepseek-chat'):
+            if 'top_k' in gen_params:
+                warnings.warn(
+                    '`top_k` parameter is deprecated in deepseek-chat.',
+                    DeprecationWarning)
+                gen_params.pop('top_k')
+            gen_params.pop('skip_special_tokens', None)
+            gen_params.pop('session_id', None)
+            data = {
+                'model': model_type,
+                'messages': messages,
+                'n': 1,
+                **gen_params
+            }
+            if json_mode:
+                data['response_format'] = {'type': 'json_object'}
         else:
             raise NotImplementedError(
                 f'Model type {model_type} is not supported')
