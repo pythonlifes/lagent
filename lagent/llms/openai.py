@@ -459,7 +459,7 @@ class GPTAPI(BaseAPIModel):
         else:
             raise NotImplementedError(
                 f'Model type {model_type} is not supported')
-
+        print('data--->',data)
         return header, data
 
     def tokenize(self, prompt: str) -> list:
