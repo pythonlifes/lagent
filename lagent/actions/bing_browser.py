@@ -117,7 +117,8 @@ class ElasticSearch(BaseSearch):
         self.index = region
         self.proxy = kwargs.get('proxy')
         self.timeout = kwargs.get('timeout', 30)
-        self.es = Elasticsearch(hosts=api_key, port=9200, timeout=self.timeout)
+        self.es = Elasticsearch(hosts=api_key, port=9200, timeout=self.timeout,
+                                http_auth=(kwargs.get('username'), kwargs.get('password')))
         super().__init__(topk, black_list)
 
     def search(self, query: str, max_retry: int = 3) -> dict:
